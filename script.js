@@ -1,17 +1,19 @@
 async function fetchGames() {
-    const corsProxy = "https://cors-anywhere.herokuapp.com/";
-    const apiUrl = corsProxy + "https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1";
+    // Gunakan proxy server alternatif
+    const corsProxy = "https://api.allorigins.win/get?url=";
+    const apiUrl = corsProxy + encodeURIComponent("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1");
 
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
+        const gamesData = JSON.parse(data.contents);
 
-        if (!data.games || data.games.length === 0) {
+        if (!gamesData.games || gamesData.games.length === 0) {
             console.error("Tidak ada game yang ditemukan!");
             return;
         }
 
-        renderGames(data.games);
+        renderGames(gamesData.games);
     } catch (error) {
         console.error("Gagal mengambil data game:", error);
     }
@@ -53,11 +55,11 @@ function toggleSidebar() {
 
 // Fungsi untuk mengambil dan menampilkan RSS feed
 async function fetchRSSFeed() {
-    const corsProxy = "https://cors-anywhere.herokuapp.com/";
-    const rssUrl = "https://example.com/rss"; // Ganti dengan URL RSS feed Anda
+    const corsProxy = "https://api.allorigins.win/get?url=";
+    const rssUrl = corsProxy + encodeURIComponent("https://example.com/rss"); // Ganti dengan URL RSS feed Anda
 
     try {
-        const response = await fetch(corsProxy + rssUrl);
+        const response = await fetch(rssUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
