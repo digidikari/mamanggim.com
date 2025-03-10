@@ -1,83 +1,37 @@
+async function fetchGames() {
+    const corsProxy = "https://cors-anywhere.herokuapp.com/";
+    const apiUrl = corsProxy + "https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1";
 
-// Data Game (Contoh)
-const games = [
-    {
-        id: 1,
-        title: "Super Adventure",
-        category: "Aksi",
-        thumbnail: "https://via.placeholder.com/250x180",
-        embedUrl: "games/game1.html"
-    },
-    {
-        id: 2,
-        title: "Puzzle Master",
-        category: "Puzzle",
-        thumbnail: "https://via.placeholder.com/250x180",
-        embedUrl: "games/game2.html"
-    },
-    // Tambahkan game lain di sini
-];
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
 
-// Render Game Cards
-function renderGames(gamesArray) {
-    const gameGrid = document.getElementById('gameGrid');
-    gameGrid.innerHTML = '';
+        if (!data.games || data.games.length === 0) {
+            console.error("Tidak ada game yang ditemukan!");
+            return;
+        }
 
-    gamesArray.forEach(game => {
-        const card = `
-            <div class="game-card">
-                <img src="${game.thumbnail}" class="game-thumbnail" alt="${game.title}">
-                <div class="game-info">
-                    <h3 class="game-title">${game.title}</h3>
-                    <p class="game-category">${game.category}</p>
-                    <button class="play-button" onclick="openModal('${game.embedUrl}')">Mainkan</button>
+        renderGames(data.games);
+    } catch (error) {
+        console.error("Gagal mengambil data game:", error);
+    }
+}
+
+function renderGames(games) {
+    const gameGrid = document.getElementById("gameGrid");
+    gameGrid.innerHTML = games.map(game => `
+        <div class="game-card" onclick="openGame('${game.url}')">
+            <img src="${game.thumbnail}" class="game-thumbnail" alt="${game.name}">
+            <div class="game-info">
+                <h3 class="game-title">${game.name}</h3>
+                <div class="game-meta">
+                    <span>⭐ ${game.rating || "N/A"}</span>
+                    <span>🎮 ${game.category || "Uncategorized"}</span>
                 </div>
             </div>
-        `;
-        gameGrid.innerHTML += card;
-    });
+        </div>
+    `).join('');
 }
 
-// Fitur Pencarian
-document.getElementById('searchInput').addEventListener('input', function(e) {
-    const searchTerm = e.target.value.toLowerCase();
-    const filteredGames = games.filter(game => 
-        game.title.toLowerCase().includes(searchTerm) || 
-        game.category.toLowerCase().includes(searchTerm)
-    );
-    renderGames(filteredGames);
-});
-
-// Modal Control
-function openModal(embedUrl) {
-    const modal = document.getElementById('gameModal');
-    const iframe = document.getElementById('gameFrame');
-    iframe.src = embedUrl;
-    modal.style.display = "block";
-}
-
-document.querySelector('.close').addEventListener('click', function() {
-    const modal = document.getElementById('gameModal');
-    const iframe = document.getElementById('gameFrame');
-    iframe.src = "";
-    modal.style.display = "none";
-});
-
-// Inisialisasi
-renderGames(games);
-
-// Fungsi Toggle
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('active');
-}
-
-// Close sidebar ketika klik di luar
-document.addEventListener('click', (e) => {
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.querySelector('.sidebar-toggle');
-    
-    if (!sidebar.contains(e.target) && e.target !== toggleBtn) {
-        sidebar.classList.remove('active');
-    }
-});
+// Panggil fungsi saat halaman dimuat
+document.addEventListener("DOMContentLoaded", fetchGames);
