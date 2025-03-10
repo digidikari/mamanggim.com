@@ -290,12 +290,12 @@
                 <li class="menu-item">🔒 Privacy</li>
             </ul>
             <div class="company-info">
-                <p>GamePix s.r.l.<br>
-                Via Marsala 29h<br>
-                0165 Rome, Italy<br>
+                <p>Mamang Gim Corp.<br>
+                Sawah Gede<br>
+                Cianjur 43212, Indonesia<br>
                 VAT: 12327731001<br>
                 REA: RM-1365971</p>
-                <p class="copyright">© 2025 GamePix</p>
+                <p class="copyright">© 2025 Mamang Gim</p>
             </div>
         </div>
     </nav>
@@ -310,16 +310,27 @@
 
     <script>
         // Data Game
-        const games = Array.from({length: 50}, (_, i) => ({
-            id: i+1,
-            title: `Game ${i+1}: Petualangan Epik`,
-            genre: ["Aksi", "Balapan", "Puzzle", "Olahraga"][i%4],
-            rating: (Math.random() * 5).toFixed(1),
-            players: Math.floor(Math.random() * 10000),
-            category: ["Trending", "Baru", "Populer"][i%3],
-            thumbnail: `https://picsum.photos/200/150?random=${i+1}`,
-            embedUrl: `https://play.gamepix.com/rotating-flappy/embed?id=${i+1}`
-        }));
+        document.addEventListener("DOMContentLoaded", function() {
+    fetch("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1")
+        .then(response => response.json())
+        .then(data => {
+            let games = data.items;
+            let gameList = document.getElementById("game-list");
+
+            games.forEach(game => {
+                let gameCard = document.createElement("div");
+                gameCard.classList.add("game-card");
+                gameCard.innerHTML = `
+                    <img src="${game.banner_image}" alt="${game.title}">
+                    <h3>${game.title}</h3>
+                    <p>${game.description.substring(0, 50)}...</p>
+                    <a href="${game.url}" target="_blank">Mainkan</a>
+                `;
+                gameList.appendChild(gameCard);
+            });
+        })
+        .catch(error => console.error("Gagal mengambil data:", error));
+});
 
         // Generate Game Cards
         function generateGameCards() {
@@ -414,26 +425,3 @@
     </script>
 </body>
 </html>
-
-</script>
-document.addEventListener("DOMContentLoaded", function() {
-    fetch("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1")
-        .then(response => response.json())
-        .then(data => {
-            let games = data.items;
-            let gameList = document.getElementById("game-list");
-
-            games.forEach(game => {
-                let gameCard = document.createElement("div");
-                gameCard.classList.add("game-card");
-                gameCard.innerHTML = `
-                    <img src="${game.banner_image}" alt="${game.title}">
-                    <h3>${game.title}</h3>
-                    <p>${game.description.substring(0, 50)}...</p>
-                    <a href="${game.url}" target="_blank">Mainkan</a>
-                `;
-                gameList.appendChild(gameCard);
-            });
-        })
-        .catch(error => console.error("Gagal mengambil data:", error));
-});
