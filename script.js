@@ -1,11 +1,10 @@
 async function fetchGames() {
-    const corsProxy = "https://cors-anywhere.herokuapp.com/";
-    const apiUrl = corsProxy + "https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1";
-
+    const apiUrl = "https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1";
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
 
+        // Periksa apakah data valid
         if (!data.games || data.games.length === 0) {
             console.error("Tidak ada game yang ditemukan!");
             return;
