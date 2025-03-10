@@ -99,6 +99,50 @@
         .game-card a:hover {
             background: #e03b47;
         }
+
+        /* Grid utama untuk game */
+.game-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 6rem 2rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Kartu game */
+.game-card {
+    width: calc(20% - 10px); /* 5 kolom di layar besar */
+    background: #1a1a20;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.2s;
+    border: 1px solid #2a2a30;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Responsif untuk tablet */
+@media (max-width: 1024px) {
+    .game-card {
+        width: calc(33.33% - 10px); /* 3 kolom di tablet */
+    }
+}
+
+/* Responsif untuk mobile */
+@media (max-width: 768px) {
+    .game-card {
+        width: calc(50% - 10px); /* 2 kolom di HP */
+    }
+}
+
+@media (max-width: 480px) {
+    .game-card {
+        width: 100%; /* 1 kolom di HP kecil */
+    }
+}
+
     </style>
 </head>
 <body>
