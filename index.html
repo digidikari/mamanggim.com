@@ -367,18 +367,6 @@
                 .catch(error => console.error("Gagal mengambil data:", error));
         });
 
-        // Data Game
-        const games = Array.from({length: 50}, (_, i) => ({
-            id: i+1,
-            title: `Game ${i+1}: Petualangan Epik`,
-            genre: ["Aksi", "Balapan", "Puzzle", "Olahraga"][i%4],
-            rating: (Math.random() * 5).toFixed(1),
-            players: Math.floor(Math.random() * 10000),
-            category: ["Trending", "Baru", "Populer"][i%3],
-            thumbnail: `https://picsum.photos/200/150?random=${i+1}`,
-            embedUrl: `https://play.gamepix.com/rotating-flappy/embed?id=${i+1}`
-        }));
-
         // Generate Game Cards
         function generateGameCards() {
             const grid = document.getElementById('gameGrid');
