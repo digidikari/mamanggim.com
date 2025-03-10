@@ -33,5 +33,66 @@ function renderGames(games) {
     `).join('');
 }
 
+// Fungsi untuk membuka game di tab baru
+function openGame(url) {
+    // Validasi URL sebelum redirect
+    const allowedDomains = ["gamepix.com"];
+    const urlObj = new URL(url);
+    if (allowedDomains.includes(urlObj.hostname)) {
+        window.open(url, '_blank');
+    } else {
+        console.error("URL tidak diizinkan:", url);
+    }
+}
+
+// Fungsi untuk toggle sidebar
+function toggleSidebar() {
+    // Logika untuk menampilkan atau menyembunyikan sidebar
+    alert('Sidebar toggled!'); // Contoh sederhana
+}
+
+// Fungsi untuk mengambil dan menampilkan RSS feed
+async function fetchRSSFeed() {
+    const corsProxy = "https://cors-anywhere.herokuapp.com/";
+    const rssUrl = "https://example.com/rss"; // Ganti dengan URL RSS feed Anda
+
+    try {
+        const response = await fetch(corsProxy + rssUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, "text/xml");
+        renderRSSFeed(xmlDoc);
+    } catch (error) {
+        console.error("Gagal mengambil RSS feed:", error);
+    }
+}
+
+function renderRSSFeed(xmlDoc) {
+    const items = xmlDoc.querySelectorAll("item");
+    const feedContainer = document.getElementById("rssFeed");
+
+    items.forEach(item => {
+        const title = item.querySelector("title").textContent;
+        const description = item.querySelector("description").textContent;
+        const link = item.querySelector("link").textContent;
+
+        const feedItem = document.createElement("div");
+        feedItem.classList.add("feed-item");
+
+        feedItem.innerHTML = `
+            <h3><a href="${link}" target="_blank">${title}</a></h3>
+            <p>${description}</p>
+        `;
+
+        feedContainer.appendChild(feedItem);
+    });
+}
+
 // Panggil fungsi saat halaman dimuat
-document.addEventListener("DOMContentLoaded", fetchGames);
+document.addEventListener("DOMContentLoaded", () => {
+    fetchGames();
+    fetchRSSFeed();
+});
