@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+
     <!-- Header -->
     <header class="main-header">
         <div class="header-left">
@@ -18,7 +19,7 @@
         </div>
     </header>
 
-    <!-- Sidebar -->
+<!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-section">
             <div class="sidebar-title">🏠 Kategori</div>
@@ -32,6 +33,36 @@
                 <li class="menu-item">🕒 Recently Played</li>
             </ul>
         </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">🎮 Semua Game</div>
+            <ul class="sidebar-menu">
+                <li class="menu-item" onclick="window.open('https://www.gamepix.com/f/two=player')">👥 2 Player</li>
+                <li class="menu-item">⚾ Baseball</li>
+                <li class="menu-item">🏀 Basketball</li>
+                <li class="menu-item">🎲 Board</li>
+                <li class="menu-item" onclick="window.open('https://www.gamepix.com/t/car')">🚗 Car</li>
+                <!-- ... (list item lainnya tetap sama) ... -->
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">🌐 Bahasa</div>
+            <ul class="sidebar-menu">
+                <li class="menu-item">🇬🇧 English</li>
+                <li class="menu-item">📄 About Us</li>
+                <li class="menu-item">📧 Contact Us</li>
+                <li class="menu-item">🔒 Privacy</li>
+            </ul>
+            <div class="company-info">
+                <p>Mamang Gim<br>
+                Sawah Gede<br>
+                Cianjur 43212, Indonesia<br>
+                VAT: 12327731001<br>
+                REA: RM-1365971</p>
+                <p class="copyright">© 2025 Mamang Gim</p>
+            </div>
+        </div>
     </nav>
 
     <!-- Game Grid -->
@@ -42,6 +73,9 @@
         <iframe class="modal-content" id="gameFrame" allowfullscreen></iframe>
     </div>
 
-    <script src="./scripts.js"></script>
+    <!-- Game List -->
+    <main class="game-grid" id="game-list"></main>
+
+ <script src="./scripts.js"></script>
 </body>
 </html>
