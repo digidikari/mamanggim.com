@@ -344,7 +344,7 @@
     <!-- Game List -->
     <main class="game-grid" id="game-list"></main>
 
-   <script>
+  <script>
     let games = []; // Mendefinisikan variabel games di luar
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -374,7 +374,7 @@
     function generateGameCards() {
         const grid = document.getElementById('gameGrid');
         grid.innerHTML = games.map(game => {
-            const embedUrl = game.embedUrl || '#'; // Default to '#' if embedUrl is undefined
+            const embedUrl = game.embedUrl ? game.embedUrl : '#'; // Default to '#' if embedUrl is undefined
             return `
                 <div class="game-card" onclick="openGame('${embedUrl}')">
                     <img src="${game.thumbnail}" class="game-thumbnail">
@@ -443,7 +443,7 @@
     function renderFilteredGames(filteredGames) {
         const grid = document.getElementById('gameGrid');
         grid.innerHTML = filteredGames.map(game => {
-            const embedUrl = game.embedUrl || '#'; // Default to '#' if embedUrl is undefined
+            const embedUrl = game.embedUrl ? game.embedUrl : '#'; // Default to '#' if embedUrl is undefined
             return `
                 <div class="game-card" onclick="openGame('${embedUrl}')">
                     <img src="${game.thumbnail}" class="game-thumbnail">
