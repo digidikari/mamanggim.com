@@ -1,5 +1,4 @@
-<script>
-    // 🚀 Fullscreen otomatis saat pertama kali membuka mamanggim.com
+ // 🚀 Fullscreen otomatis saat pertama kali membuka mamanggim.com
     document.addEventListener("DOMContentLoaded", function () {
         function goFullscreen() {
             let elem = document.documentElement;
