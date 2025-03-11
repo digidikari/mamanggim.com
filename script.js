@@ -1,9 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".game-card a").forEach(link => {
-    link.addEventListener("click", function (event) {
-        event.preventDefault();
-        let gameUrl = this.href;
-        window.open(`game.html?url=${encodeURIComponent(gameUrl)}`, "_blank");
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            let gameUrl = this.href;
+
+            // Gunakan window.open() langsung tanpa template literal
+            let newTab = window.open("game.html", "_blank");
+
+            if (newTab) {
+                newTab.location.href = `game.html?url=${encodeURIComponent(gameUrl)}`;
+            } else {
+                alert("Popup terblokir! Izinkan pop-up untuk membuka game.");
+            }
+        });
     });
 });
 
