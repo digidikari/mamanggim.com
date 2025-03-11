@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".game-card a").forEach(link => {
+    link.addEventListener("click", function (event) {
+        event.preventDefault();
+        let gameUrl = this.href;
+        window.open(`game.html?url=${encodeURIComponent(gameUrl)}`, "_blank");
+    });
+});
+
     function goFullscreen() {
         let elem = document.documentElement;
         if (elem.requestFullscreen) elem.requestFullscreen();
