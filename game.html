@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Game</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Ambil URL game dari parameter
+            let params = new URLSearchParams(window.location.search);
+            let gameUrl = params.get("url");
+
+            // Buat iframe game
+            if (gameUrl) {
+                let iframe = document.createElement("iframe");
+                iframe.src = gameUrl;
+                document.body.appendChild(iframe);
+
+                // Aktifkan fullscreen otomatis
+                function goFullscreen() {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    } else if (document.documentElement.mozRequestFullScreen) { 
+                        document.documentElement.mozRequestFullScreen();
+                    } else if (document.documentElement.webkitRequestFullscreen) { 
+                        document.documentElement.webkitRequestFullscreen();
+                    } else if (document.documentElement.msRequestFullscreen) { 
+                        document.documentElement.msRequestFullscreen();
+                    }
+                }
+                goFullscreen();
+            } else {
+                document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:20%;'>Game Tidak Ditemukan</h1>";
+            }
+        });
+    </script>
+</body>
+</html>
