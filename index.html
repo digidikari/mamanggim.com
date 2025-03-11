@@ -372,12 +372,14 @@
     <main class="game-grid" id="game-list"></main>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() 
+            let games = []; // Tambahkan ini sebelum fetch {
             fetch("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1")
                 .then(response => response.json())
                 .then(data => {
-                    let games = data.items;
-                    let gameList = document.getElementById("game-list");
+                     games = data.items;
+                     gameList = document.getElementById("game-list");
+                    generateGameCards(); // Panggil fungsi untuk menampilkan game
 
                     games.forEach(game => {
                         let gameCard = document.createElement("div");
