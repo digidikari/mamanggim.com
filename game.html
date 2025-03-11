@@ -31,6 +31,10 @@
             if (gameUrl) {
                 let iframe = document.createElement("iframe");
                 iframe.src = gameUrl;
+                iframe.style.width = "100vw";
+                iframe.style.height = "100vh";
+                iframe.style.border = "none";
+            
                 document.body.appendChild(iframe);
 
                 // 🚀 Masuk mode fullscreen otomatis
