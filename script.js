@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-});
 
     function goFullscreen() {
         let elem = document.documentElement;
