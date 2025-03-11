@@ -33,3 +33,4 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Fullscreen ditutup, klik untuk mengaktifkan lagi.");
         }
     });
+});
