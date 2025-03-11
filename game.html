@@ -22,7 +22,15 @@
 </head>
 <body>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function ()
+        document.addEventListener("click", function () {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.mozRequestFullscreen) elem.mozRequestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+}, { once: true }); // Hanya berjalan sekali untuk menghindari spam fullscreen
+{
             // Ambil URL game dari parameter
             let params = new URLSearchParams(window.location.search);
             let gameUrl = params.get("url");
