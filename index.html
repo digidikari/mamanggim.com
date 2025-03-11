@@ -379,7 +379,6 @@
                 .then(data => {
                      games = data.items;
                      gameList = document.getElementById("game-list");
-                    generateGameCards(); // Panggil fungsi untuk menampilkan game
 
                     games.forEach(game => {
                         let gameCard = document.createElement("div");
