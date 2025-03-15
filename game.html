@@ -36,55 +36,66 @@
             border-radius: 10px;
         }
 
-        .vote-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 15px 0;
-        }
-
-        .vote-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            margin: 0 10px;
-            color: white;
-        }
-
-        .vote-button:hover {
-            color: #f4a261;
-        }
-
-        .star-rating {
-            font-size: 22px;
-            color: gold;
-            margin-right: 5px;
-        }
-
-        #total-votes {
-            font-size: 18px;
-            color: white;
-        }
-
         #game-description {
             font-size: 16px;
             margin: 15px 0;
         }
 
-        #play-button {
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .button {
             display: inline-block;
             padding: 15px 30px;
-            background: #29a329;
-            color: white;
-            text-decoration: none;
             font-size: 18px;
             border-radius: 5px;
-            margin-top: 15px;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        #play-button {
+            background: #29a329;
         }
 
         #play-button:hover {
             background: #218721;
+        }
+
+        #back-button {
+            background: #d62828;
+        }
+
+        #back-button:hover {
+            background: #b71c1c;
+        }
+
+        #fullscreen-game {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: black;
+            z-index: 9999;
+        }
+
+        #close-fullscreen {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background: red;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -93,21 +104,21 @@
     <div id="game-container">
         <h1 id="game-title">Memuat...</h1>
         <img id="game-image" src="" alt="Gambar Game">
-        
-        <div class="vote-container">
-            <button class="vote-button" id="vote-up">👍</button>
-            <span class="star-rating">⭐⭐⭐⭐⭐</span>
-            <span id="total-votes">0</span>
-            <button class="vote-button" id="vote-down">👎</button>
-        </div>
-
         <p id="game-description">Deskripsi: Memuat...</p>
-        <a id="play-button" href="#" target="_blank">Mainkan</a>
+
+        <div class="button-container">
+            <button id="play-button" class="button">Mainkan</button>
+            <button id="back-button" class="button" onclick="history.back()">Kembali</button>
+        </div>
+    </div>
+
+    <div id="fullscreen-game">
+        <button id="close-fullscreen">❌ Keluar</button>
+        <iframe id="game-frame" src="" width="100%" height="100%" frameborder="0"></iframe>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Ambil ID game dari URL
             const urlParams = new URLSearchParams(window.location.search);
             const gameId = urlParams.get("id");
 
@@ -116,7 +127,6 @@
                 return;
             }
 
-            // Fetch data dari API GamePix
             fetch("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1")
                 .then(response => response.json())
                 .then(data => {
@@ -127,11 +137,7 @@
                         document.getElementById("game-title").innerText = game.title;
                         document.getElementById("game-image").src = game.banner_image;
                         document.getElementById("game-description").innerText = game.description;
-                        document.getElementById("play-button").href = game.url;
-
-                        // Update jumlah vote up berdasarkan data API (jika ada)
-                        const votes = game.votes || 0;
-                        document.getElementById("total-votes").innerText = votes;
+                        document.getElementById("game-frame").src = game.url;
                     } else {
                         document.getElementById("game-container").innerHTML = "<h1>Game tidak ditemukan!</h1>";
                     }
@@ -141,16 +147,36 @@
                     document.getElementById("game-container").innerHTML = "<h1>Gagal memuat data!</h1>";
                 });
 
-            // Simulasi Voting (Tidak Tersimpan di Server)
-            let totalVotes = 0;
-            document.getElementById("vote-up").addEventListener("click", function () {
-                totalVotes++;
-                document.getElementById("total-votes").innerText = totalVotes;
+            document.getElementById("play-button").addEventListener("click", function () {
+                let fullscreenGame = document.getElementById("fullscreen-game");
+                let gameFrame = document.getElementById("game-frame");
+
+                fullscreenGame.style.display = "block";
+
+                if (fullscreenGame.requestFullscreen) {
+                    fullscreenGame.requestFullscreen();
+                } else if (fullscreenGame.mozRequestFullScreen) { 
+                    fullscreenGame.mozRequestFullScreen();
+                } else if (fullscreenGame.webkitRequestFullscreen) { 
+                    fullscreenGame.webkitRequestFullscreen();
+                } else if (fullscreenGame.msRequestFullscreen) { 
+                    fullscreenGame.msRequestFullscreen();
+                }
             });
 
-            document.getElementById("vote-down").addEventListener("click", function () {
-                totalVotes--;
-                document.getElementById("total-votes").innerText = totalVotes;
+            document.getElementById("close-fullscreen").addEventListener("click", function () {
+                let fullscreenGame = document.getElementById("fullscreen-game");
+                fullscreenGame.style.display = "none";
+
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { 
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { 
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { 
+                    document.msExitFullscreen();
+                }
             });
         });
     </script>
