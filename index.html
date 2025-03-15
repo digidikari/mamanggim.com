@@ -389,6 +389,16 @@
                                 <img src="${game.banner_image}" alt="${game.title}">
                              </a>
                             <h3>${game.title}</h3>
+                            <div class="game-card">
+                                <a href="game.html?id=${game.id}">
+                                    <img src="${game.banner_image}" alt="${game.title}">
+                                    <h3>${game.title}</h3>
+                                </a>
+                                <!-- Menampilkan kategori -->
+                                <div class="game-genres">
+                                    ${game.categories.slice(0, 3).map(cat => `<span class="genre-tag" onclick="filterByGenre('${cat}')">${cat}</span>`).join('')}
+                                </div>
+                             </div>
                         `;
                         gameList.appendChild(gameCard);
                     });
