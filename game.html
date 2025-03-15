@@ -4,102 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Game</title>
-    <link rel="stylesheet" href="style.css">
+
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #0d1b2a;
-    color: white;
-    text-align: center;
-}
+            font-family: Arial, sans-serif;
+            background-color: #0d1b2a;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
 
-.game-container {
-    width: 60%;
-    margin: 50px auto;
-    background: #1b263b;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
+        #game-container {
+            width: 60%;
+            margin: 50px auto;
+            background: #1b263b;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
 
-.game-header h1 {
-    font-size: 28px;
-    text-transform: uppercase;
-}
+        #game-title {
+            font-size: 28px;
+            text-transform: uppercase;
+        }
 
-.game-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-}
+        #game-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+        }
 
-.game-content img {
-    width: 50%;
-    border-radius: 10px;
-}
+        #game-genre, #game-description {
+            font-size: 16px;
+            margin: 10px 0;
+        }
 
-.game-details {
-    width: 45%;
-    text-align: left;
-}
+        #play-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #29a329;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
 
-.play-button {
-    display: inline-block;
-    padding: 15px 30px;
-    background: #29a329;
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    border-radius: 5px;
-    margin-top: 15px;
-}
-
-.play-button:hover {
-    background: #218721;
-}
-    body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
-    #game-container {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 600px;
-        margin: auto;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    #game-image {
-        width: 100%;
-        max-width: 400px;
-        border-radius: 10px;
-    }
-    #game-title {
-        font-size: 24px;
-        font-weight: bold;
-    }
-    #game-genre, #game-description {
-        font-size: 16px;
-        margin: 10px 0;
-    }
-    #play-button {
-        display: inline-block;
-        padding: 10px 20px;
-        margin-top: 10px;
-        background: #28a745;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 18px;
-    }
-    #play-button:hover {
-        background: #218838;
-    }
-</style>
+        #play-button:hover {
+            background: #218721;
+        }
+    </style>
 </head>
 <body>
 
@@ -132,11 +87,6 @@
                 })
                 .then(data => {
                     console.log("Data API:", data); // Debugging
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const gameId = urlParams.get("id");
-
-                    console.log("Game ID:", gameId); // Debugging
-
                     const game = data.items.find(item => item.id == gameId);
 
                     if (game) {
@@ -146,31 +96,15 @@
                         document.getElementById("game-description").innerText = game.description;
                         document.getElementById("play-button").href = game.url;
                     } else {
-                        document.querySelector(".game-container").innerHTML = "<h1>Game tidak ditemukan!</h1>";
+                        document.getElementById("game-container").innerHTML = "<h1>Game tidak ditemukan!</h1>";
                     }
                })
                .catch(error => {
                    console.error("Fetch error:", error);
-                   document.querySelector(".game-container").innerHTML = "<h1>Gagal memuat data!</h1>";
+                   document.getElementById("game-container").innerHTML = "<h1>Gagal memuat data!</h1>";
                });
-
         });
-
-<div class="game-container">
-    <div class="game-header">
-        <h1 id="game-title"></h1>
-    </div>
-    <div class="game-content">
-        <img id="game-image" src="" alt="Game Image">
-        <div class="game-details">
-            <p id="game-genre"></p>
-            <p id="game-description"></p>
-            <a id="play-button" href="#" target="_blank" class="play-button">Play Now</a>
-        </div>
-    </div>
-</div>
-
-<script src="script.js"></script>
+    </script>
 
 </body>
 </html>
