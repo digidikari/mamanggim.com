@@ -385,10 +385,11 @@
                         let gameCard = document.createElement("div");
                         gameCard.classList.add("game-card");
                         gameCard.innerHTML = `
-                            <img src="${game.banner_image}" alt="${game.title}">
+                            <a href="game.html?id=${game.id}">
+                                <img src="${game.banner_image}" alt="${game.title}">
+                             </a>
                             <h3>${game.title}</h3>
                             <p>${game.description.substring(0, 50)}...</p>
-                            <a href="${game.url}" target="_blank" rel="noopener noreferrer">Mainkan</a>
                         `;
                         gameList.appendChild(gameCard);
                     });
