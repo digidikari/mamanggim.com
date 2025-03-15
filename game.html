@@ -41,6 +41,40 @@
             margin: 15px 0;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        #play-button {
+            background: #29a329;
+        }
+
+        #play-button:hover {
+            background: #218721;
+        }
+
+        #back-button {
+            background: #d62828;
+        }
+
+        #back-button:hover {
+            background: #b71c1c;
+        }
+
         #fullscreen-game {
             width: 100vw;
             height: 100vh;
@@ -75,6 +109,17 @@
 </head>
 <body>
 
+    <div id="game-container">
+        <h1 id="game-title">Memuat...</h1>
+        <img id="game-image" src="" alt="Gambar Game">
+        <p id="game-description">Deskripsi: Memuat...</p>
+
+        <div class="button-container">
+            <button id="play-button" class="button">Mainkan</button>
+            <button id="back-button" class="button" onclick="goBack()">Kembali</button>
+        </div>
+    </div>
+
     <div id="fullscreen-game">
         <button id="close-fullscreen">❌</button>
         <iframe id="game-frame" src="" frameborder="0"></iframe>
@@ -98,8 +143,10 @@
                     const game = data.items.find(item => item.id == gameId);
 
                     if (game) {
+                        document.getElementById("game-title").innerText = game.title;
+                        document.getElementById("game-image").src = game.banner_image;
+                        document.getElementById("game-description").innerText = game.description;
                         document.getElementById("game-frame").src = game.url;
-                        enterFullscreen(); // Otomatis fullscreen saat halaman dimuat
                     } else {
                         alert("Game tidak ditemukan!");
                         window.history.back();
@@ -111,10 +158,13 @@
                     window.history.back();
                 });
 
-            function enterFullscreen() {
+            document.getElementById("play-button").addEventListener("click", function () {
                 let fullscreenGame = document.getElementById("fullscreen-game");
+                let gameFrame = document.getElementById("game-frame");
+
                 fullscreenGame.style.display = "block";
 
+                // **Fullscreen hanya aktif setelah user klik**
                 if (fullscreenGame.requestFullscreen) {
                     fullscreenGame.requestFullscreen();
                 } else if (fullscreenGame.mozRequestFullScreen) { 
@@ -124,12 +174,13 @@
                 } else if (fullscreenGame.msRequestFullscreen) { 
                     fullscreenGame.msRequestFullscreen();
                 }
-            }
+            });
 
             document.getElementById("close-fullscreen").addEventListener("click", function () {
                 let fullscreenGame = document.getElementById("fullscreen-game");
                 fullscreenGame.style.display = "none";
 
+                // **Keluar dari fullscreen**
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 } else if (document.mozCancelFullScreen) { 
@@ -140,9 +191,17 @@
                     document.msExitFullscreen();
                 }
 
-                window.history.back(); // Kembali ke halaman sebelumnya setelah keluar
+                // **Reset iframe agar game benar-benar tertutup**
+                document.getElementById("game-frame").src = "";
+
+                // **Kembali ke halaman utama**
+                goBack();
             });
         });
+
+        function goBack() {
+            window.location.href = "index.html"; // Ganti dengan URL halaman utama
+        }
     </script>
 
 </body>
