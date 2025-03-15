@@ -19,6 +19,11 @@ function goFullscreen() {
     else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
 }
 
+// Filter kategori
+function filterByCategory(category) {
+    const filteredGames = games.filter(game => game.categories.includes(category));
+    renderGames(filteredGames);
+
 // Event listener untuk fullscreen
 document.body.addEventListener("click", goFullscreen);
 
@@ -27,4 +32,6 @@ document.addEventListener("fullscreenchange", function () {
     if (!document.fullscreenElement) {
         setTimeout(goFullscreen, 1000); // Tunggu 1 detik sebelum kembali ke fullscreen
     }
+}
+
 });
