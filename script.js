@@ -32,4 +32,3 @@ document.body.addEventListener("click", goFullscreen);
             console.log("Fullscreen ditutup, klik untuk mengaktifkan lagi.");
         }
     });
-});
