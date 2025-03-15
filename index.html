@@ -1,276 +1,122 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAMANG GIM - Portal Game Terbaik</title>
-
+    <title>MAMANG GIM</title>
     <style>
-        /* Reset dan Font */
-        * {
+        body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        body {
-            background: #0f0f14;
-            color: #fff;
-            min-height: 100vh;
-        }
-
-        /* Header */
-        .main-header {
             display: flex;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: #1a1a20;
-            border-bottom: 2px solid #FF4754;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            justify-content: space-between;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .sidebar-toggle {
-            width: 35px;
-            height: 35px;
-            background: #FF4754;
-            border-radius: 50%;
+            background: #111;
             color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-            border: none;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #FF4754;
-            text-decoration: none;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: -250px;
-            top: 60px;
+        #sidebar {
             width: 250px;
-            height: calc(100% - 60px);
-            background: #1a1a20;
-            transition: 0.3s;
-            padding: 1rem;
-            overflow-y: auto;
-            border-right: 2px solid #2a2a30;
-            z-index: 999;
+            background: #222;
+            padding: 20px;
+            height: 100vh;
         }
 
-        .sidebar.active {
-            left: 0;
-        }
-
-        .sidebar-title {
-            color: #FF4754;
-            font-size: 1.1rem;
-            margin-bottom: 0.8rem;
-            padding-left: 0.5rem;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .menu-item {
-            padding: 0.6rem;
-            border-radius: 6px;
-            margin-bottom: 0.4rem;
+        #toggleSidebar {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 20px;
             cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
         }
 
-        .menu-item:hover {
-            background: #FF475420;
-        }
-
-        /* Game Grid */
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1rem;
-            padding: 6rem 2rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+        #gameContainer {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
         }
 
         .game-card {
-            background: #1a1a20;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: 0.2s;
-            border: 1px solid #2a2a30;
-            text-align: center;
+            background: #333;
             padding: 10px;
-        }
-
-        .game-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-bottom: 2px solid #2a2a30;
-        }
-
-        .game-card h3 {
-            font-size: 1rem;
-            margin: 10px 0;
-            color: #fff;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255,71,84,0.2);
-        }
-
-        /* Genre Tags */
-        .game-genres {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-top: 5px;
-        }
-
-        .genre-tag {
-            background: #FF4754;
-            color: white;
-            padding: 5px 10px;
+            margin: 10px;
             border-radius: 5px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .genre-tag:hover {
-            background: #FF2E3D;
-        }
-
-        /* Tombol Tampilkan Semua */
-        .show-all-btn {
-            background: #FF4754;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 10px;
-            display: block;
-            width: 100%;
-            text-align: center;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-
-        .show-all-btn:hover {
-            background: #FF2E3D;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .game-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .game-grid {
-                grid-template-columns: repeat(3, 1fr);
-                padding: 5rem 1rem 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .game-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="main-header">
-        <div class="header-left">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-            <a href="#" class="logo">MAMANG GIM</a>
-        </div>
-    </header>
-
     <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-title">🏠 Kategori</div>
-        <ul class="sidebar-menu" id="sidebarMenu"></ul>
-    </nav>
+    <aside id="sidebar">
+        <button id="toggleSidebar">☰</button>
+        <h1>MAMANG GIM</h1>
+        <ul id="categoryList">
+            <li><a href="#" onclick="filterGames('all')">Semua Kategori</a></li>
+        </ul>
+    </aside>
 
-    <!-- Game Grid -->
-    <main class="game-grid" id="gameGrid"></main>
+    <!-- Konten Utama -->
+    <main id="gameContainer">
+        <h2>Daftar Game</h2>
+        <div id="games"></div>
+    </main>
 
     <script>
-        let games = [];
-
         document.addEventListener("DOMContentLoaded", function () {
+            const sidebar = document.getElementById("sidebar");
+            const toggleSidebar = document.getElementById("toggleSidebar");
+            const gamesContainer = document.getElementById("games");
+            const categoryList = document.getElementById("categoryList");
+
+            // **Toggle Sidebar**
+            toggleSidebar.addEventListener("click", function () {
+                sidebar.style.display = sidebar.style.display === "none" ? "block" : "none";
+            });
+
+            // **Ambil Data dari RSS GamePix**
             fetch("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1")
                 .then(response => response.json())
                 .then(data => {
-                    games = data.items;
-                    renderGames(games);
-                    renderGenreButtons();
+                    let games = data.items;
+                    let categories = new Set(); // Kategori unik
+
+                    // **Tampilkan Game**
+                    gamesContainer.innerHTML = "";
+                    games.forEach(game => {
+                        let category = game.category || "Lainnya"; // Jika kategori kosong
+                        categories.add(category);
+
+                        let gameElement = document.createElement("div");
+                        gameElement.classList.add("game-card");
+                        gameElement.innerHTML = `
+                            <h3>${game.title}</h3>
+                            <p>Kategori: ${category}</p>
+                            <a href="${game.url}" target="_blank">Mainkan</a>
+                        `;
+                        gameElement.dataset.category = category;
+                        gamesContainer.appendChild(gameElement);
+                    });
+
+                    // **Tampilkan Kategori di Sidebar**
+                    categories.forEach(cat => {
+                        let catElement = document.createElement("li");
+                        catElement.innerHTML = `<a href="#" onclick="filterGames('${cat}')">${cat}</a>`;
+                        categoryList.appendChild(catElement);
+                    });
                 })
                 .catch(error => console.error("Gagal mengambil data:", error));
         });
 
-        function renderGames(gameList) {
-            const grid = document.getElementById("gameGrid");
-            grid.innerHTML = gameList.map(game => `
-                <div class="game-card">
-                    <a href="game.html?id=${game.id}">
-                        <img src="${game.banner_image}" alt="${game.title}">
-                        <h3>${game.title}</h3>
-                    </a>
-                    <div class="game-genres">
-                        ${game.categories.slice(0, 3).map(cat => `
-                            <span class="genre-tag" onclick="filterByGenre('${cat}')">${cat}</span>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function filterByGenre(genre) {
-            renderGames(games.filter(game => game.categories.includes(genre)));
-            addShowAllButton();
-        }
-
-        function addShowAllButton() {
-            const grid = document.getElementById("gameGrid");
-            grid.insertAdjacentHTML("afterbegin", '<button class="show-all-btn" onclick="renderGames(games)">Tampilkan Semua</button>');
-        }
-
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("active");
+        // **Filter Game Berdasarkan Kategori**
+        function filterGames(category) {
+            let games = document.querySelectorAll(".game-card");
+            games.forEach(game => {
+                if (category === "all" || game.dataset.category === category) {
+                    game.style.display = "block";
+                } else {
+                    game.style.display = "none";
+                }
+            });
         }
     </script>
 
