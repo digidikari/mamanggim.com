@@ -1,14 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".game-card a").forEach(link => {
-        link.addEventListener("click", function (event) {
-            event.preventDefault();
-            let gameUrl = this.href;
+           let link = event.target.closest(".game-card a");
+            if (!link) return;
 
             // Gunakan window.open() langsung tanpa template literal
             let newTab = window.open("game.html", "_blank");
-
             if (newTab) {
-                newTab.location.href = game.html?url=${encodeURIComponent(gameUrl)};
+                newTab.location.href = `game.html?url=${encodeURIComponent(gameUrl)}`;
             } else {
                 alert("Popup terblokir! Izinkan pop-up untuk membuka game.");
             }
