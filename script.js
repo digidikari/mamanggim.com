@@ -25,9 +25,6 @@ function filterByCategory(category) {
     renderGames(filteredGames);
 }
 
-// Event listener untuk fullscreen
-document.body.addEventListener("click", goFullscreen);
-
 // Jika keluar dari fullscreen, otomatis masuk fullscreen lagi
 document.addEventListener("fullscreenchange", function () {
     if (!document.fullscreenElement) {
