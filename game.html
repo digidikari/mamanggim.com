@@ -1,92 +1,52 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Game</title>
+    <title>Game Detail</title>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            overflow: hidden;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .game-container { max-width: 600px; margin: auto; }
+        img { width: 100%; border-radius: 8px; }
+        button { padding: 10px 20px; font-size: 16px; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
+
+    <div class="game-container">
+        <img id="gameImage" src="" alt="Game">
+        <h2 id="gameTitle"></h2>
+        <p id="gameDescription"></p>
+        <p><strong>Genre:</strong> <span id="gameGenre"></span></p>
+        <button id="playButton">Mainkan</button>
+    </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function ()
-        document.addEventListener("click", function ()
-        document.addEventListener("DOMContentLoaded", function () {
-            let gameFrame = document.getElementById("gameFrame"); // Pastikan iframe memiliki id="gameFrame"
-            <iframe id="gameFrame" src="https://play.gamepix.com/hoop-world/embed?sid=ANA26" 
-                width="100%" height="100%" style="border:none;"></iframe>
+        // Ambil ID game dari URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameId = urlParams.get("id");
 
-    function goFullscreen() {
-        if (gameFrame.requestFullscreen) {
-            gameFrame.requestFullscreen();
-        } else if (gameFrame.mozRequestFullScreen) { // Firefox
-            gameFrame.mozRequestFullScreen();
-        } else if (gameFrame.webkitRequestFullscreen) { // Chrome, Safari, Opera
-            gameFrame.webkitRequestFullscreen();
-        } else if (gameFrame.msRequestFullscreen) { // IE/Edge
-            gameFrame.msRequestFullscreen();
+        // Data Dummy (nanti bisa diganti dengan fetch API)
+        const dummyGames = [
+            { id: "1", title: "Hoop World", description: "Game basket seru!", genre: "Olahraga", url: "https://play.gamepix.com/hoop-world/embed?sid=ANA26", image: "https://via.placeholder.com/600" },
+            { id: "2", title: "Funny Shooter 2", description: "Game tembak-tembakan lucu!", genre: "Aksi", url: "https://play.gamepix.com/funny-shooter-2/embed", image: "https://via.placeholder.com/600" }
+        ];
+
+        // Cari game berdasarkan ID
+        const game = dummyGames.find(g => g.id === gameId);
+
+        if (game) {
+            document.getElementById("gameImage").src = game.image;
+            document.getElementById("gameTitle").textContent = game.title;
+            document.getElementById("gameDescription").textContent = game.description;
+            document.getElementById("gameGenre").textContent = game.genre;
+            document.getElementById("playButton").addEventListener("click", function() {
+                window.open(game.url, "_self"); // Buka di tab yang sama
+            });
+        } else {
+            document.querySelector(".game-container").innerHTML = "<h2>Game tidak ditemukan!</h2>";
         }
-    }
-
-    // Tambahkan event listener ke dalam iframe
-    gameFrame.addEventListener("click", function () {
-        goFullscreen();
-    });
-});
-{
-            let elem = document.documentElement;
-            if (elem.requestFullscreen) elem.requestFullscreen();
-            else if (elem.mozRequestFullscreen) elem.mozRequestFullscreen();
-            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-}, { once: true }); // Hanya berjalan sekali untuk menghindari spam fullscreen
-{
-            // Ambil URL game dari parameter
-            let params = new URLSearchParams(window.location.search);
-            let gameUrl = params.get("url");
-
-            // Jika ada URL game, tampilkan dalam iframe fullscreen
-            if (gameUrl) {
-                let iframe = document.createElement("iframe");
-                iframe.src = gameUrl;
-                iframe.style.width = "100vw";
-                iframe.style.height = "100vh";
-                iframe.style.border = "none";
-            
-                document.body.appendChild(iframe);
-
-                // 🚀 Masuk mode fullscreen otomatis
-                function goFullscreen() {
-                    let elem = document.documentElement;
-                    if (elem.requestFullscreen) {
-                        elem.requestFullscreen();
-                    } else if (elem.mozRequestFullScreen) {
-                        elem.mozRequestFullScreen();
-                    } else if (elem.webkitRequestFullscreen) {
-                        elem.webkitRequestFullscreen();
-                    } else if (elem.msRequestFullscreen) {
-                        elem.msRequestFullscreen();
-                    }
-                }
-                goFullscreen();
-            } else {
-                document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:20%;'>Game Tidak Ditemukan</h1>";
-            }
-        });
     </script>
+
 </body>
 </html>
