@@ -27,6 +27,7 @@
         #game-title {
             font-size: 28px;
             text-transform: uppercase;
+            margin-bottom: 10px;
         }
 
         #game-image {
@@ -35,9 +36,40 @@
             border-radius: 10px;
         }
 
-        #game-genre, #game-description {
+        .vote-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .vote-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            margin: 0 10px;
+            color: white;
+        }
+
+        .vote-button:hover {
+            color: #f4a261;
+        }
+
+        .star-rating {
+            font-size: 22px;
+            color: gold;
+            margin-right: 5px;
+        }
+
+        #total-votes {
+            font-size: 18px;
+            color: white;
+        }
+
+        #game-description {
             font-size: 16px;
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
         #play-button {
@@ -61,7 +93,14 @@
     <div id="game-container">
         <h1 id="game-title">Memuat...</h1>
         <img id="game-image" src="" alt="Gambar Game">
-        <p id="game-genre">Genre: Memuat...</p>
+        
+        <div class="vote-container">
+            <button class="vote-button" id="vote-up">👍</button>
+            <span class="star-rating">⭐⭐⭐⭐⭐</span>
+            <span id="total-votes">0</span>
+            <button class="vote-button" id="vote-down">👎</button>
+        </div>
+
         <p id="game-description">Deskripsi: Memuat...</p>
         <a id="play-button" href="#" target="_blank">Mainkan</a>
     </div>
@@ -79,30 +118,40 @@
 
             // Fetch data dari API GamePix
             fetch("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1")
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Gagal mengambil data API");
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    console.log("Data API:", data); // Debugging
+                    console.log("Data API:", data);
                     const game = data.items.find(item => item.id == gameId);
 
                     if (game) {
                         document.getElementById("game-title").innerText = game.title;
                         document.getElementById("game-image").src = game.banner_image;
-                        document.getElementById("game-genre").innerText = "Genre: " + (game.genre || "Tidak tersedia");
                         document.getElementById("game-description").innerText = game.description;
                         document.getElementById("play-button").href = game.url;
+
+                        // Update jumlah vote up berdasarkan data API (jika ada)
+                        const votes = game.votes || 0;
+                        document.getElementById("total-votes").innerText = votes;
                     } else {
                         document.getElementById("game-container").innerHTML = "<h1>Game tidak ditemukan!</h1>";
                     }
-               })
-               .catch(error => {
-                   console.error("Fetch error:", error);
-                   document.getElementById("game-container").innerHTML = "<h1>Gagal memuat data!</h1>";
-               });
+                })
+                .catch(error => {
+                    console.error("Fetch error:", error);
+                    document.getElementById("game-container").innerHTML = "<h1>Gagal memuat data!</h1>";
+                });
+
+            // Simulasi Voting (Tidak Tersimpan di Server)
+            let totalVotes = 0;
+            document.getElementById("vote-up").addEventListener("click", function () {
+                totalVotes++;
+                document.getElementById("total-votes").innerText = totalVotes;
+            });
+
+            document.getElementById("vote-down").addEventListener("click", function () {
+                totalVotes--;
+                document.getElementById("total-votes").innerText = totalVotes;
+            });
         });
     </script>
 
