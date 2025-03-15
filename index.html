@@ -63,21 +63,6 @@
             text-decoration: none;
         }
 
-        .search-container {
-            flex-grow: 1;
-            max-width: 400px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 0.8rem 1.2rem;
-            border-radius: 20px;
-            border: none;
-            background: #2a2a30;
-            color: #fff;
-            outline: none;
-        }
-
         /* Sidebar */
         .sidebar {
             position: fixed;
@@ -95,10 +80,6 @@
 
         .sidebar.active {
             left: 0;
-        }
-
-        .sidebar-section {
-            margin-bottom: 1.5rem;
         }
 
         .sidebar-title {
@@ -165,50 +146,47 @@
             box-shadow: 0 5px 15px rgba(255,71,84,0.2);
         }
 
-        /* Efek Neon pada Iframe */
-        .game-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.96);
-            display: none;
-            z-index: 9999;
+        /* Genre Tags */
+        .game-genres {
             display: flex;
             justify-content: center;
-            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
         }
 
-        .modal-content {
-            width: 90%;
-            height: 90%;
-            border: 5px solid #FF4754;
-            border-radius: 10px;
-            box-shadow: 0 0 15px #FF4754, 0 0 30px #FF4754;
+        .genre-tag {
+            background: #FF4754;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .game-genres {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-top: 5px;
-}
+        .genre-tag:hover {
+            background: #FF2E3D;
+        }
 
-.genre-tag {
-    background: #FF4754;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
+        /* Tombol Tampilkan Semua */
+        .show-all-btn {
+            background: #FF4754;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
 
-.genre-tag:hover {
-    background: #FF2E3D;
-}
-
+        .show-all-btn:hover {
+            background: #FF2E3D;
+        }
 
         /* Responsive */
         @media (max-width: 1200px) {
@@ -239,34 +217,16 @@
             <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
             <a href="#" class="logo">MAMANG GIM</a>
         </div>
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Cari game...">
-        </div>
     </header>
 
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
-        <div class="sidebar-section">
-            <div class="sidebar-title">🏠 Kategori</div>
-            <ul class="sidebar-menu">
-                <li class="menu-item">🏠 Home</li>
-                <li class="menu-item">🔥 Most Played</li>
-                <li class="menu-item">🆕 New</li>
-                <li class="menu-item">📈 Trending</li>
-                <li class="menu-item">🎁 Specials</li>
-                <li class="menu-item">🎉 Surprise Me</li>
-                <li class="menu-item">🕒 Recently Played</li>
-            </ul>
-        </div>
+        <div class="sidebar-title">🏠 Kategori</div>
+        <ul class="sidebar-menu" id="sidebarMenu"></ul>
     </nav>
 
     <!-- Game Grid -->
     <main class="game-grid" id="gameGrid"></main>
-
-    <!-- Fullscreen Modal -->
-    <div class="game-modal" id="gameModal">
-        <iframe class="modal-content" id="gameFrame" allowfullscreen></iframe>
-    </div>
 
     <script>
         let games = [];
@@ -277,6 +237,7 @@
                 .then(data => {
                     games = data.items;
                     renderGames(games);
+                    renderGenreButtons();
                 })
                 .catch(error => console.error("Gagal mengambil data:", error));
         });
@@ -289,18 +250,24 @@
                         <img src="${game.banner_image}" alt="${game.title}">
                         <h3>${game.title}</h3>
                     </a>
-                <h3>${game.title}</h3>
-                <div class="game-genres">
-                    ${game.categories.slice(0, 3).map(cat => `<span class="genre-tag" onclick="filterByGenre('${cat}')">${cat}</span>`).join('')}
+                    <div class="game-genres">
+                        ${game.categories.slice(0, 3).map(cat => `
+                            <span class="genre-tag" onclick="filterByGenre('${cat}')">${cat}</span>
+                        `).join('')}
+                    </div>
                 </div>
-            </div>
-        `).join('');
-    }
+            `).join('');
+        }
 
-    function filterByGenre(genre) {
-        const filteredGames = games.filter(game => game.categories.includes(genre));
-        renderGames(filteredGames);
-    }
+        function filterByGenre(genre) {
+            renderGames(games.filter(game => game.categories.includes(genre)));
+            addShowAllButton();
+        }
+
+        function addShowAllButton() {
+            const grid = document.getElementById("gameGrid");
+            grid.insertAdjacentHTML("afterbegin", '<button class="show-all-btn" onclick="renderGames(games)">Tampilkan Semua</button>');
+        }
 
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("active");
