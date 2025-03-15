@@ -72,25 +72,36 @@
 
             // Fetch data dari API GamePix
             fetch("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1")
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Gagal mengambil data API");
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    const games = data.items;
-                    const game = games.find(g => g.id === gameId); // Cari game berdasarkan ID
+                    console.log("Data API:", data); // Debugging
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const gameId = urlParams.get("id");
+
+                    console.log("Game ID:", gameId); // Debugging
+
+                    const game = data.items.find(item => item.id == gameId);
 
                     if (game) {
                         document.getElementById("game-title").innerText = game.title;
                         document.getElementById("game-image").src = game.banner_image;
-                        document.getElementById("game-genre").innerText = "Genre: " + game.genre;
+                        document.getElementById("game-genre").innerText = "Genre: " + (game.genre || "Tidak tersedia");
                         document.getElementById("game-description").innerText = game.description;
                         document.getElementById("play-button").href = game.url;
                     } else {
-                        document.getElementById("game-container").innerHTML = "<h2>Game tidak ditemukan!</h2>";
+                        document.querySelector(".game-container").innerHTML = "<h1>Game tidak ditemukan!</h1>";
                     }
-                })
-                .catch(error => {
-                    console.error("Gagal mengambil data game:", error);
-                    document.getElementById("game-container").innerHTML = "<h2>Gagal memuat data game.</h2>";
-                });
+               })
+               .catch(error => {
+                   console.error("Fetch error:", error);
+                   document.querySelector(".game-container").innerHTML = "<h1>Gagal memuat data!</h1>";
+               });
+
         });
 
 <div class="game-container">
