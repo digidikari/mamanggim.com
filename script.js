@@ -26,9 +26,9 @@ function goFullscreen() {
 // Tambahkan event listener untuk fullscreen
 document.body.addEventListener("click", goFullscreen);
 
-    // Jika keluar dari fullscreen, tetap bisa masuk fullscreen lagi
-    document.addEventListener("fullscreenchange", function () {
-        if (!document.fullscreenElement) {
-            console.log("Fullscreen ditutup, klik untuk mengaktifkan lagi.");
-        }
-    });
+// Jika keluar dari fullscreen, tetap bisa masuk fullscreen lagi
+ document.addEventListener("fullscreenchange", function () {
+     if (!document.fullscreenElement) {
+         console.log("Fullscreen ditutup, klik untuk mengaktifkan lagi.");
+     }
+});
