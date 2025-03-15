@@ -199,6 +199,15 @@
             });
         });
 
+               // Tambahkan history baru saat masuk game.html
+               history.pushState(null, null, location.href);
+
+               // Tangani tombol Back
+               window.onpopstate = function () {
+               // Arahkan ke halaman utama saat tombol Back ditekan
+               window.location.href = "index.html";
+            };
+        
         function goBack() {
             window.location.href = "index.html"; // Ganti dengan URL halaman utama
         }
