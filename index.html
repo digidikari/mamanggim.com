@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAMANG GIM - Portal Game Terbaik</title>
     <style>
-        /* Style Umum */
+        /* Style CSS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', sans-serif;
         }
+        
         body {
             background: #0f0f14;
             color: #fff;
@@ -32,6 +33,13 @@
             z-index: 1000;
             justify-content: space-between;
         }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .sidebar-toggle {
             width: 35px;
             height: 35px;
@@ -43,13 +51,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: 0.3s;
             border: none;
         }
+
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
             color: #FF4754;
             text-decoration: none;
+            margin-right: 2rem;
+        }
+
+        .search-container {
+            flex-grow: 1;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border-radius: 20px;
+            border: none;
+            background: #2a2a30;
+            color: #fff;
+            outline: none;
         }
 
         /* Sidebar */
@@ -66,40 +92,117 @@
             border-right: 2px solid #2a2a30;
             z-index: 999;
         }
+
         .sidebar.active {
             left: 0;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            color: #FF4754;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            padding-left: 0.5rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 0.6rem;
+            border-radius: 6px;
+            margin-bottom: 0.4rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .menu-item:hover {
+            background: #FF475420;
         }
 
         /* Game Grid */
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 1rem;
             padding: 6rem 2rem 2rem;
             max-width: 1400px;
-            margin: auto;
+            margin: 0 auto;
         }
+
         .game-card {
             background: #1a1a20;
             border-radius: 10px;
+            overflow: hidden;
+            transition: 0.2s;
+            border: 1px solid #2a2a30;
             text-align: center;
             padding: 10px;
-            cursor: pointer;
-            transition: transform 0.2s;
         }
+
         .game-card img {
             width: 100%;
             height: 150px;
             object-fit: cover;
             border-bottom: 2px solid #2a2a30;
         }
+
+        .game-card h3 {
+            font-size: 1rem;
+            margin: 10px 0;
+            color: #fff;
+        }
+
+        .game-card p {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .game-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: #FF4754;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
         .game-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(255,71,84,0.2);
         }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .game-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-grid {
+                grid-template-columns: repeat(3, 1fr);
+                padding: 5rem 1rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
-<body onclick="enterFullscreen()">
+<body>
 
     <!-- Header -->
     <header class="main-header">
@@ -107,16 +210,22 @@
             <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
             <a href="#" class="logo">MAMANG GIM</a>
         </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Cari game...">
+        </div>
     </header>
 
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
-        <ul>
-            <li><a href="#">🏠 Home</a></li>
-            <li><a href="#">🔥 Most Played</a></li>
-            <li><a href="#">🆕 New</a></li>
-            <li><a href="#">📈 Trending</a></li>
-        </ul>
+        <div class="sidebar-section">
+            <div class="sidebar-title">🏠 Kategori</div>
+            <ul class="sidebar-menu">
+                <li class="menu-item">🏠 Home</li>
+                <li class="menu-item">🔥 Most Played</li>
+                <li class="menu-item">🆕 New</li>
+                <li class="menu-item">📈 Trending</li>
+            </ul>
+        </div>
     </nav>
 
     <!-- Game Grid -->
@@ -145,19 +254,6 @@
                     </a>
                 </div>
             `).join('');
-        }
-
-        function enterFullscreen() {
-            let elem = document.documentElement;
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) {
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            }
         }
 
         function toggleSidebar() {
