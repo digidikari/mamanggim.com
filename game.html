@@ -92,7 +92,22 @@
                     document.getElementById("game-container").innerHTML = "<h2>Gagal memuat data game.</h2>";
                 });
         });
-    </script>
+
+<div class="game-container">
+    <div class="game-header">
+        <h1 id="game-title"></h1>
+    </div>
+    <div class="game-content">
+        <img id="game-image" src="" alt="Game Image">
+        <div class="game-details">
+            <p id="game-genre"></p>
+            <p id="game-description"></p>
+            <a id="play-button" href="#" target="_blank" class="play-button">Play Now</a>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
