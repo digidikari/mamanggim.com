@@ -2,14 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".game-card a").forEach(link => {
         link.addEventListener("click", function (event) {
             event.preventDefault();
-            let gameUrl = this.href; // Tambahkan deklarasi gameUrl
+            let gameUrl = this.getAttribute("href");
 
-            let newTab = window.open("game.html", "_blank");
-            if (newTab) {
-                newTab.location.href = `game.html?url=${encodeURIComponent(gameUrl)}`;
-            } else {
-                alert("Popup terblokir! Izinkan pop-up untuk membuka game.");
-            }
+            // Arahkan ke game.html di tab yang sama
+            window.location.href = `game.html?url=${encodeURIComponent(gameUrl)}`;
         });
     });
 });
@@ -23,12 +19,12 @@ function goFullscreen() {
     else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
 }
 
-// Tambahkan event listener untuk fullscreen
+// Event listener untuk fullscreen
 document.body.addEventListener("click", goFullscreen);
 
-// Jika keluar dari fullscreen, tetap bisa masuk fullscreen lagi
- document.addEventListener("fullscreenchange", function () {
-     if (!document.fullscreenElement) {
-         console.log("Fullscreen ditutup, klik untuk mengaktifkan lagi.");
-     }
+// Jika keluar dari fullscreen, otomatis masuk fullscreen lagi
+document.addEventListener("fullscreenchange", function () {
+    if (!document.fullscreenElement) {
+        setTimeout(goFullscreen, 1000); // Tunggu 1 detik sebelum kembali ke fullscreen
+    }
 });
