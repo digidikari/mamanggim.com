@@ -4,121 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAMANG GIM</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            background: #111;
-            color: white;
-        }
-
-        #sidebar {
-            width: 250px;
-            background: #222;
-            padding: 20px;
-            height: 100vh;
-        }
-
-        #toggleSidebar {
-            background: red;
-            color: white;
-            border: none;
-            padding: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        #gameContainer {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .game-card {
-            background: #333;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
-
     <!-- Sidebar -->
-    <aside id="sidebar">
-        <button id="toggleSidebar">☰</button>
-        <h1>MAMANG GIM</h1>
-        <ul id="categoryList">
-            <li><a href="#" onclick="filterGames('all')">Semua Kategori</a></li>
+    <div id="sidebar" class="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <h2>MAMANG GIM</h2>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Most Played</a></li>
+            <li><a href="#">New</a></li>
+            <li><a href="#">Trending</a></li>
+            <li><a href="#">Specials</a></li>
+            <li><a href="#">Arcade</a></li>
+            <li><a href="#">Shooter</a></li>
+            <li><a href="#">Racing</a></li>
         </ul>
-    </aside>
+    </div>
 
     <!-- Konten Utama -->
-    <main id="gameContainer">
-        <h2>Daftar Game</h2>
-        <div id="games"></div>
-    </main>
+    <div id="main-content">
+        <header>
+            <input type="text" placeholder="Search" class="search-bar">
+        </header>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const sidebar = document.getElementById("sidebar");
-            const toggleSidebar = document.getElementById("toggleSidebar");
-            const gamesContainer = document.getElementById("games");
-            const categoryList = document.getElementById("categoryList");
-
-            // **Toggle Sidebar**
-            toggleSidebar.addEventListener("click", function () {
-                sidebar.style.display = sidebar.style.display === "none" ? "block" : "none";
-            });
-
-            // **Ambil Data dari RSS GamePix**
-            fetch("https://feeds.gamepix.com/v2/json?sid=ANA26&pagination=96&page=1")
-                .then(response => response.json())
-                .then(data => {
-                    let games = data.items;
-                    let categories = new Set(); // Kategori unik
-
-                    // **Tampilkan Game**
-                    gamesContainer.innerHTML = "";
-                    games.forEach(game => {
-                        let category = game.category || "Lainnya"; // Jika kategori kosong
-                        categories.add(category);
-
-                        let gameElement = document.createElement("div");
-                        gameElement.classList.add("game-card");
-                        gameElement.innerHTML = `
-                            <h3>${game.title}</h3>
-                            <p>Kategori: ${category}</p>
-                            <a href="${game.url}" target="_blank">Mainkan</a>
-                        `;
-                        gameElement.dataset.category = category;
-                        gamesContainer.appendChild(gameElement);
-                    });
-
-                    // **Tampilkan Kategori di Sidebar**
-                    categories.forEach(cat => {
-                        let catElement = document.createElement("li");
-                        catElement.innerHTML = `<a href="#" onclick="filterGames('${cat}')">${cat}</a>`;
-                        categoryList.appendChild(catElement);
-                    });
-                })
-                .catch(error => console.error("Gagal mengambil data:", error));
-        });
-
-        // **Filter Game Berdasarkan Kategori**
-        function filterGames(category) {
-            let games = document.querySelectorAll(".game-card");
-            games.forEach(game => {
-                if (category === "all" || game.dataset.category === category) {
-                    game.style.display = "block";
-                } else {
-                    game.style.display = "none";
-                }
-            });
-        }
-    </script>
-
+        <section class="game-list">
+            <h2>Daftar Game</h2>
+            <div class="games">
+                <div class="game-card">
+                    <img src="game1.jpg" alt="Game 1">
+                    <h3>Shell Shockers</h3>
+                    <p>Kategori: MMORPG, Gun</p>
+                    <button onclick="playGame('game1')">Mainkan</button>
+                </div>
+                <div class="game-card">
+                    <img src="game2.jpg" alt="Game 2">
+                    <h3>Smash Karts</h3>
+                    <p>Kategori: Racing, Car</p>
+                    <button onclick="playGame('game2')">Mainkan</button>
+                </div>
+                <div class="game-card">
+                    <img src="game3.jpg" alt="Game 3">
+                    <h3>Dogeminer</h3>
+                    <p>Kategori: Arcade, Mining</p>
+                    <button onclick="playGame('game3')">Mainkan</button>
+                </div>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
