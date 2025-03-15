@@ -384,13 +384,13 @@
                     games.forEach(game => {
                         let gameCard = document.createElement("div");
                         gameCard.classList.add("game-card");
-                        gameCard.innerHTML = 
+                        gameCard.innerHTML = `
                             <a href="game.html?id=${game.id}">
                                 <img src="${game.banner_image}" alt="${game.title}">
                              </a>
                             <h3>${game.title}</h3>
                             <p>${game.description.substring(0, 50)}...</p>
-                        ;
+                        `;
                         gameList.appendChild(gameCard);
                     });
                 })
@@ -400,7 +400,7 @@
         // Generate Game Cards
         function generateGameCards() {
             const grid = document.getElementById('gameGrid');
-            grid.innerHTML = games.map(game => 
+            grid.innerHTML = games.map(game => `
                 <div class="game-card" onclick="openGame('${game.embedUrl}')">
                     <img src="${game.thumbnail}" class="game-thumbnail">
                     <div class="game-info">
@@ -415,7 +415,7 @@
                         </div>
                     </div>
                 </div>
-            ).join('');
+            `).join('');
         }
 
         // Game Control
@@ -462,7 +462,7 @@
 
         function renderFilteredGames(filteredGames) {
             const grid = document.getElementById('gameGrid');
-            grid.innerHTML = filteredGames.map(game => 
+            grid.innerHTML = filteredGames.map(game => `
                 <div class="game-card" onclick="openGame('${game.embedUrl}')">
                     <img src="${game.thumbnail}" class="game-thumbnail">
                     <div class="game-info">
@@ -477,7 +477,7 @@
                         </div>
                     </div>
                 </div>
-            ).join('');
+            `).join('');
         }
 
         // Initialize
