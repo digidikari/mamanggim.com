@@ -183,7 +183,36 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+        <style>
+    /* Efek Neon pada Iframe */
+    .game-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.96);
+        display: none;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        width: 90%;
+        height: 90%;
+        border: 5px solid #FF4754; /* Warna Neon */
+        border-radius: 10px;
+        box-shadow: 0 0 15px #FF4754, 0 0 30px #FF4754; /* Efek Neon */
+    }
     </style>
+    
+<!-- Fullscreen Modal -->
+<div class="game-modal" id="gameModal">
+    <iframe class="modal-content" id="gameFrame" allowfullscreen></iframe>
+</div>
+
 </head>
 <body>
 
